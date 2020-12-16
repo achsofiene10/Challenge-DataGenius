@@ -1,3 +1,5 @@
+import {Link} from 'react-router-dom';
+
 
 function Header() {
     return (
@@ -18,7 +20,8 @@ function Header() {
                         {/* Collect the nav links, forms, and other content for toggling */}
                         <div className="collapse navbar-collapse" id="navbar-menu">
                             <ul className="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
-                                <li className="nav-item active"><a className="nav-link" href="index.html">Home</a></li>
+                                <li className="nav-item active"><Link to="/" className="nav-link" >Home</Link></li>
+                                <li className="nav-item"><Link to="" className="nav-link" >About Us</Link></li>
 
                             </ul>
                         </div>
@@ -27,11 +30,11 @@ function Header() {
                         <div className="attr-nav">
                             <ul>
                                 <li className="side-menu">
-                                    <a href="# ">
+                                    <Link to="/cart">
                                         <i className="fa fa-shopping-bag" />
                                         <span className="badge">3</span>
                                         <p>My Cart</p>
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </div>
