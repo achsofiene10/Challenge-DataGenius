@@ -1,7 +1,11 @@
+import React , {useContext} from 'react';
 import {Link} from 'react-router-dom';
+import globalContext from './context/globalContext';
 
 
 function Header() {
+    const context = useContext(globalContext);
+
     return (
         <div>
             {/* Start Main Top */}
@@ -21,7 +25,6 @@ function Header() {
                         <div className="collapse navbar-collapse" id="navbar-menu">
                             <ul className="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
                                 <li className="nav-item active"><Link to="/" className="nav-link" >Home</Link></li>
-                                <li className="nav-item"><Link to="" className="nav-link" >About Us</Link></li>
 
                             </ul>
                         </div>
@@ -32,7 +35,7 @@ function Header() {
                                 <li className="side-menu">
                                     <Link to="/cart">
                                         <i className="fa fa-shopping-bag" />
-                                        <span className="badge">3</span>
+                                        <span className="badge">{context.cart && context.cart.items.length}</span>
                                         <p>My Cart</p>
                                     </Link>
                                 </li>

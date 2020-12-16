@@ -1,4 +1,14 @@
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import globalContext from './context/globalContext';
+
 function Cart() {
+    const context = useContext(globalContext);
+    
+    const deleteProduct=(product)=>{
+        context.deleteProductHandler(product);
+    }
+
     return (
         <div>
             <div className="cart-box-main">
@@ -18,84 +28,40 @@ function Cart() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td className="thumbnail-img">
-                                                <a href="# ">
-                                                    <img className="img-fluid" src="images/img-pro-01.jpg" alt="description" />
-                                                </a>
-                                            </td>
-                                            <td className="name-pr">
-                                                <a href="# ">
-                                                    Lorem ipsum dolor sit amet
-                        </a>
-                                            </td>
-                                            <td className="price-pr">
-                                                <p>$ 80.0</p>
-                                            </td>
-                                            <td className="quantity-box"><input type="number" size={4} defaultValue={1} min={0} step={1} className="c-input-text qty text" /></td>
-                                            <td className="total-pr">
-                                                <p>$ 80.0</p>
-                                            </td>
-                                            <td className="remove-pr">
-                                                <a href="# ">
-                                                    <i className="fas fa-times" />
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td className="thumbnail-img">
-                                                <a href="# ">
-                                                    <img className="img-fluid" src="images/img-pro-02.jpg" alt="description" />
-                                                </a>
-                                            </td>
-                                            <td className="name-pr">
-                                                <a href="# ">
-                                                    Lorem ipsum dolor sit amet
-                        </a>
-                                            </td>
-                                            <td className="price-pr">
-                                                <p>$ 60.0</p>
-                                            </td>
-                                            <td className="quantity-box"><input type="number" size={4} defaultValue={1} min={0} step={1} className="c-input-text qty text" /></td>
-                                            <td className="total-pr">
-                                                <p>$ 80.0</p>
-                                            </td>
-                                            <td className="remove-pr">
-                                                <a href="# ">
-                                                    <i className="fas fa-times" />
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td className="thumbnail-img">
-                                                <a href="# ">
-                                                    <img className="img-fluid" src="images/img-pro-03.jpg" alt="description" />
-                                                </a>
-                                            </td>
-                                            <td className="name-pr">
-                                                <a href="# ">
-                                                    Lorem ipsum dolor sit amet
-                        </a>
-                                            </td>
-                                            <td className="price-pr">
-                                                <p>$ 30.0</p>
-                                            </td>
-                                            <td className="quantity-box"><input type="number" size={4} defaultValue={1} min={0} step={1} className="c-input-text qty text" /></td>
-                                            <td className="total-pr">
-                                                <p>$ 80.0</p>
-                                            </td>
-                                            <td className="remove-pr">
-                                                <a href="# ">
-                                                    <i className="fas fa-times" />
-                                                </a>
-                                            </td>
-                                        </tr>
+                            {
+                                context.cart && context.cart.items.map((item,index)=>(
+                                    <tr key={index}>
+                                    <td className="thumbnail-img">
+                                        <a href="# ">
+                                            <img className="img-fluid" src={item.product.image} alt="description" />
+                                        </a>
+                                    </td>
+                                    <td className="name-pr">
+                                        <a href="# ">
+                                            {item.product.name}
+                                    </a>
+                                    </td>
+                                    <td className="price-pr">
+                                        <p>{item.product.discount >0 ? (item.product.price* (1 - (item.product.discount / 100))).toFixed(1) : item.product.price }$</p>
+                                    </td>
+                                    <td className="quantity-box">  <p>{item.quantity_to_buy} </p> </td>
+                                    <td className="total-pr">
+                                        <p>{item.Total_product.toFixed(1)}$</p>  
+                                    </td>
+                                    <td className="remove-pr">
+                                        <Link to="#"onClick={()=>{deleteProduct(item)}}>
+                                            <i className="fas fa-times" />
+                                        </Link>
+                                    </td>
+                                </tr>
+                                ))
+                            }
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                   
+
                     <div className="row my-5">
                         <div className="col-lg-8 col-sm-12" />
                         <div className="col-lg-4 col-sm-12">
@@ -103,29 +69,17 @@ function Cart() {
                                 <h3>Order summary</h3>
                                 <div className="d-flex">
                                     <h4>Sub Total</h4>
-                                    <div className="ml-auto font-weight-bold"> $ 130 </div>
+                                    <div className="ml-auto font-weight-bold"> {context.cart && context.cart.subtotal ? context.cart.subtotal.toFixed(1) : 0 }$ </div>
                                 </div>
                                 <div className="d-flex">
                                     <h4>Discount</h4>
-                                    <div className="ml-auto font-weight-bold"> $ 40 </div>
+                                    <div className="ml-auto font-weight-bold"> {context.cart && context.cart.subtotal ? (context.cart.subtotal-context.cart.total).toFixed(1) : 0 }$ </div>
                                 </div>
-                                <hr className="my-1" />
-                                <div className="d-flex">
-                                    <h4>Coupon Discount</h4>
-                                    <div className="ml-auto font-weight-bold"> $ 10 </div>
-                                </div>
-                                <div className="d-flex">
-                                    <h4>Tax</h4>
-                                    <div className="ml-auto font-weight-bold"> $ 2 </div>
-                                </div>
-                                <div className="d-flex">
-                                    <h4>Shipping Cost</h4>
-                                    <div className="ml-auto font-weight-bold"> Free </div>
-                                </div>
+                               
                                 <hr />
                                 <div className="d-flex gr-total">
                                     <h5>Grand Total</h5>
-                                    <div className="ml-auto h5"> $ 388 </div>
+                                    <div className="ml-auto h5"> {context.cart && context.cart.total ? context.cart.total.toFixed(1) : 0 }$ </div>
                                 </div>
                                 <hr /> </div>
                         </div>
