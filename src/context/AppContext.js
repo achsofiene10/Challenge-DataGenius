@@ -58,7 +58,7 @@ export default function AppContext(props) {
         const index=_cart.items.findIndex(item => item.product.id === _prod.product.id);
         _cart.items.splice(index,1);
         _cart.subtotal=_cart.subtotal-(_prod.product.price * _prod.quantity_to_buy)
-        _cart.total = _cart.total - (_prod.Total_product * _prod.quantity_to_buy);
+        _cart.total = _cart.total - _prod.Total_product;
         setCart(_cart);
     }
     return (

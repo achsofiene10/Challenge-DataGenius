@@ -1,19 +1,18 @@
 import React, { useState, useEffect, useContext } from 'react'
 import globalContext from './context/globalContext';
 import {Link} from 'react-router-dom';
+import axios from 'axios';
 
-const _productsData = [
-    { id: 1, name: "Fruit1", description: "description1", price: 12, quantity: 12, image: "images/img-pro-01.jpg", discount: 10, offer: false },
-    { id: 2, name: "Fruit2", description: "description1", price: 15, quantity: 10, image: "images/img-pro-02.jpg", offer: true, discount: 10 },
-    { id: 3, name: "Vegetable1", description: "description1", price: 17, quantity: 10, image: "images/img-pro-03.jpg", offer: false, discount: 20 }
-];
 
 function Products() {
     const [products, setProducts] = useState(null);
     const context = useContext(globalContext)
 
     useEffect(() => {
-        setProducts(_productsData)
+        axios.get("http://127.0.0.1:8000/getallproducts").then(res => {
+            setProducts(res.data.products)
+                }).catch(err => console.log(err));
+        
     }, [])
     const addProduct = (product) => {
         context.addProductHandler(product);

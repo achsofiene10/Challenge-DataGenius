@@ -44,7 +44,7 @@ function Cart() {
                                     <td className="price-pr">
                                         <p>{item.product.discount >0 ? (item.product.price* (1 - (item.product.discount / 100))).toFixed(1) : item.product.price }$</p>
                                     </td>
-                                    <td className="quantity-box">  <p>{item.quantity_to_buy} </p> </td>
+                                    <td className="quantity-box">  { item.product.offer && item.quantity_to_buy>=2 ? <p> {item.quantity_to_buy} + {item.quantity_to_buy/2} free </p> : <p> {item.quantity_to_buy}</p>  }</td>
                                     <td className="total-pr">
                                         <p>{item.Total_product.toFixed(1)}$</p>  
                                     </td>
