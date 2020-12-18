@@ -19,7 +19,6 @@ function App() {
           <Route path='/ticket' exact component={Ticket}></Route>
         </Switch>
         </AppContext>
-
     </div>
   );
 }

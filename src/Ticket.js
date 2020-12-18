@@ -5,10 +5,9 @@ import globalContext from './context/globalContext';
 import './Ticket.css';
 import axios from 'axios';
 
+/* Print the ticket and send it to Backend to save a ticket pdf file*/
 
 function printToPdf() {
-    const date = new Date().toLocaleDateString();
-    const time = new Date().toLocaleTimeString();
     html2canvas(document.getElementById("print_to_pdf")).then(canvas => {
         var data = canvas.toDataURL();
         var pdfExportSetting = {
@@ -19,10 +18,16 @@ function printToPdf() {
                 }
             ]
         };
-        pdfMake.createPdf(pdfExportSetting).open();
-        pdfMake.createPdf(pdfExportSetting).download(`Ticket_${date}_${time}.pdf`);
+        pdfMake.createPdf(pdfExportSetting).print();
+        const pdfDocGenerator = pdfMake.createPdf(pdfExportSetting);
+        pdfDocGenerator.getBlob((blob) => {
+           let formdata= new FormData();
+           formdata.append('ticket', blob);
+           axios.post("http://127.0.0.1:8000/addticket",formdata)
+        });
     });
 };
+
 
 
 function Ticket() {
@@ -58,7 +63,7 @@ function Ticket() {
                                                                         <div align="right">
                                                                             Subtotal   $ {context.cart && context.cart.subtotal ? context.cart.subtotal.toFixed(1) : 0}</div>
                                                                         <div align="right">
-                                                                            Discount   $ {context.cart && context.cart.subtotal ? (context.cart.subtotal-context.cart.total).toFixed(1) : 0}</div>
+                                                                            Discount   $ {context.cart && context.cart.subtotal ? (context.cart.subtotal - context.cart.total).toFixed(1) : 0}</div>
                                                                         <div align="right">
                                                                             Total   $ {context.cart && context.cart.total ? context.cart.total.toFixed(1) : 0}</div>
                                                                     </td>
@@ -83,8 +88,8 @@ function Ticket() {
     );
 }
 
+/*Component Item to render all product details in the ticket*/ 
 const Item = (props) => {
-    console.log(props.element)
     return (
         <table className="invoice-items" cellPadding={0} cellSpacing={0}>
             <tbody>
@@ -96,7 +101,7 @@ const Item = (props) => {
                     <tr>
                         <td>{props.element.quantity_to_buy} X {props.element.product.name} </td>
                         <td className="alignright-ticket">$ {props.element.product.price * props.element.quantity_to_buy}</td> </tr>}
-                        { props.element.product.offer && props.element.quantity_to_buy>=2 ? <p> + {props.element.quantity_to_buy/2} for free </p> : null}
+                {props.element.product.offer && props.element.quantity_to_buy >= 2 ? <p> + {Math.trunc(props.element.quantity_to_buy / 2)} for free </p> : null}
             </tbody></table>
     )
 }

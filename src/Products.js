@@ -8,15 +8,19 @@ function Products() {
     const [products, setProducts] = useState(null);
     const context = useContext(globalContext)
 
+    /* When component is mounted*/ 
     useEffect(() => {
         axios.get("http://127.0.0.1:8000/getallproducts").then(res => {
             setProducts(res.data.products)
                 }).catch(err => console.log(err));
         
     }, [])
+
+    /* add product to cart variable in context */ 
     const addProduct = (product) => {
         context.addProductHandler(product);
     }
+
     return (
         <div>
             <div className="products-box">

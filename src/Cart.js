@@ -4,7 +4,6 @@ import globalContext from './context/globalContext';
 
 function Cart() {
     const context = useContext(globalContext);
-    
     const deleteProduct=(product)=>{
         context.deleteProductHandler(product);
     }
