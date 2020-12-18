@@ -44,7 +44,7 @@ function Cart() {
                                     <td className="price-pr">
                                         <p>{item.product.discount >0 ? (item.product.price* (1 - (item.product.discount / 100))).toFixed(1) : item.product.price }$</p>
                                     </td>
-                                    <td className="quantity-box">  { item.product.offer && item.quantity_to_buy>=2 ? <p> {item.quantity_to_buy} + {item.quantity_to_buy/2} free </p> : <p> {item.quantity_to_buy}</p>  }</td>
+                                    <td className="quantity-box">  { item.product.offer && item.quantity_to_buy>=2 ? <p> {item.quantity_to_buy} + {Math.trunc(item.quantity_to_buy/2)} free </p> : <p> {item.quantity_to_buy}</p>  }</td>
                                     <td className="total-pr">
                                         <p>{item.Total_product.toFixed(1)}$</p>  
                                     </td>
@@ -61,7 +61,6 @@ function Cart() {
                             </div>
                         </div>
                     </div>
-
                     <div className="row my-5">
                         <div className="col-lg-8 col-sm-12" />
                         <div className="col-lg-4 col-sm-12">
@@ -83,7 +82,7 @@ function Cart() {
                                 </div>
                                 <hr /> </div>
                         </div>
-                        <div className="col-12 d-flex shopping-box"><a href="checkout.html" className="ml-auto btn hvr-hover">Checkout</a> </div>
+                        <div className="col-12 d-flex shopping-box"><Link to="/ticket" className="ml-auto btn hvr-hover">Checkout</Link> </div>
                     </div>
                 </div>
             </div>
